@@ -1,4 +1,4 @@
-name: 'Terraform Push Action'
+name: 'Terraform Apply'
 on:
   push:
     branches:
