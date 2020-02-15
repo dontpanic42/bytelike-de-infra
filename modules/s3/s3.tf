@@ -15,3 +15,33 @@ resource "aws_s3_bucket" "site_file_bucket" {
     "Name" = "${var.page_domain_name}"
   })
 }
+
+# we don't want people to directly access our S3 bucket, so via bucket policy we restrict
+# access to the cloudfront origin access identity
+data "aws_iam_policy_document" "s3_policy" {
+  statement {
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.site_file_bucket.arn}/*"]
+
+    principals {
+      type        = "AWS"
+      identifiers = [var.oai_iam_arn]
+    }
+  }
+
+  statement {
+    actions   = ["s3:ListBucket"]
+    resources = [aws_s3_bucket.site_file_bucket.arn]
+
+    principals {
+      type        = "AWS"
+      identifiers = [var.oai_iam_arn]
+    }
+  }
+}
+
+# Attach the bucket policy
+resource "aws_s3_bucket_policy" "example" {
+  bucket = aws_s3_bucket.site_file_bucket.id
+  policy = data.aws_iam_policy_document.s3_policy.json
+}
