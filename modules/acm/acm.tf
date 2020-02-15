@@ -12,8 +12,8 @@ resource "aws_acm_certificate" "cert" {
 
 # Get our route53 hosted zone for the domain name
 data "aws_route53_zone" "zone" {
-    name = "${var.page_domain_name}."
-    private_zone = false
+  name         = "${var.page_domain_name}."
+  private_zone = false
 }
 
 # Cert validation works by requiring us to create a dns server entry for our domain

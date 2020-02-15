@@ -1,2 +1,2 @@
-# bytelike-com-infra
-Infrastructure Scripts for ByteLike.com
+# bytelike-de-infra
+Infrastructure Scripts for ByteLike.de
